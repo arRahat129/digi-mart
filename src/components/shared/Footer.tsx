@@ -1,7 +1,9 @@
 import React from "react";
 import Link from "next/link";
 import { Link as HeroLink } from "@heroui/react";
-import { FiGithub, FiTwitter, FiLinkedin, FiTerminal, FiMail, FiMapPin } from "react-icons/fi";
+import { FiGithub, FiTwitter, FiLinkedin, FiMail, FiMapPin } from "react-icons/fi";
+import Image from "next/image";
+import logoImg from "@/assets/images/DigiMartLogo.png"
 
 export default function Footer() {
     const currentYear = new Date().getFullYear();
@@ -27,7 +29,7 @@ export default function Footer() {
     ];
 
     return (
-        <footer className="w-full bg-white dark:bg-slate-950 text-slate-600 dark:text-slate-400 font-sans border-t border-slate-200 dark:border-slate-900 transition-colors duration-300">
+        <footer className="w-full text-slate-600 dark:text-slate-400 font-sans border-t border-slate-200 dark:border-slate-900 transition-colors duration-300">
             <div className="max-w-7xl mx-auto px-6 py-12 md:py-16">
 
                 {/* Main Grid Hierarchy */}
@@ -36,8 +38,17 @@ export default function Footer() {
                     {/* Brand Column */}
                     <div className="md:col-span-1 space-y-4">
                         <div className="flex items-center gap-2 text-slate-900 dark:text-white font-mono font-bold text-lg tracking-wider">
-                            <FiTerminal className="text-blue-600 dark:text-cyan-400 w-5 h-5" />
-                            <span>{"KEENKEEPER"}</span>
+                            <div className="relative w-8 h-8 flex items-center justify-center overflow-hidden rounded">
+                                <Image
+                                    src={logoImg}
+                                    alt="DigiMart Logo"
+                                    className="w-full h-full object-contain"
+                                    priority
+                                />
+                            </div>
+                            <span className="text-xl font-bold tracking-tight bg-linear-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
+                                DigiMart
+                            </span>
                         </div>
                         <p className="text-sm text-slate-500 dark:text-slate-500 leading-relaxed max-w-xs">
                             {"Optimized data monitoring and system health processing architecture."}

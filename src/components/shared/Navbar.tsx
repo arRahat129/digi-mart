@@ -124,8 +124,7 @@ const Navbar: React.FC = () => {
                             <ThemeToggle
                                 isIconOnly={false}
                                 variant="outline"
-                                className=" border-none bg-transparent text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 justify-center w-full
-"
+                                className=" border-none bg-transparent text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 justify-center w-full"
                             />
                         </div>
                         <Button
