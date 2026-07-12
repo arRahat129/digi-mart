@@ -24,7 +24,8 @@ import {
     FiUploadCloud,
     FiLink,
     FiPhone,
-    FiX
+    FiX,
+    FiMapPin
 } from 'react-icons/fi';
 import {
     FaWhatsapp,
@@ -45,6 +46,7 @@ interface FormData {
     contactMethod: 'whatsapp' | 'facebook' | 'instagram' | 'x';
     contactDetails: string;
     sellerMessage: string;
+    address: string;
     userId: string;
     userName: string;
     userImage: string;
@@ -74,6 +76,7 @@ const SellItemForm: React.FC<SellItemFormProps> = ({ user }) => {
         contactMethod: 'whatsapp',
         contactDetails: '',
         sellerMessage: '',
+        address: '',
         userId: user?._id || '',
         userName: user?.name || '',
         userImage: user?.image || '',
@@ -212,7 +215,10 @@ const SellItemForm: React.FC<SellItemFormProps> = ({ user }) => {
         const finalSubmissionData = {
             ...formData,
             contactDetails: processedContactDetails,
-            sellerMessage: formData.sellerMessage.trim() || 'Contact me'
+            sellerMessage: formData.sellerMessage.trim() || 'Contact me',
+            address: formData.address.trim(),
+            status: 'pending',
+            availability: 'available'
         };
 
         setIsSubmitting(true);
@@ -227,6 +233,7 @@ const SellItemForm: React.FC<SellItemFormProps> = ({ user }) => {
                     title: '', category: '', description: '', price: '',
                     conditionYears: '', purchaseDate: '', imageUrl: '',
                     contactMethod: 'whatsapp', contactDetails: '', sellerMessage: '',
+                    address: '',
                     userId: user._id || '',
                     userName: user.name || '',
                     userImage: user.image || '',
@@ -303,6 +310,19 @@ const SellItemForm: React.FC<SellItemFormProps> = ({ user }) => {
                             </Select.Popover>
                         </Select>
                     </div>
+                    <TextField isRequired>
+                        <Label className={labelStyles}>Pickup Address</Label>
+                        <InputGroup className="flex items-center rounded-xl border border-slate-200 dark:border-slate-800 focus-within:border-blue-500 px-3 transition-colors">
+                            <InputGroup.Prefix><FiMapPin className="text-slate-400 w-4 h-4" /></InputGroup.Prefix>
+                            <InputGroup.Input
+                                type="text"
+                                placeholder="e.g., House 42, Road 12, Dhanmondi, Dhaka"
+                                value={formData.address}
+                                onChange={(e) => handleInputChange('address', e.target.value)}
+                                className={groupInputStyles}
+                            />
+                        </InputGroup>
+                    </TextField>
                 </div>
 
                 {/* Valuation & History */}
@@ -500,6 +520,7 @@ const SellItemForm: React.FC<SellItemFormProps> = ({ user }) => {
                                 title: '', category: '', description: '', price: '',
                                 conditionYears: '', purchaseDate: '', imageUrl: '',
                                 contactMethod: 'whatsapp', contactDetails: '', sellerMessage: '',
+                                address: '',
                                 userId: user._id || '',
                                 userName: user.name || '',
                                 userImage: user.image || '',
