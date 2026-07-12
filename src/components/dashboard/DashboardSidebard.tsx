@@ -27,11 +27,9 @@ const DashboardSidebar = async () => {
             {/* Mobile View Drawer Toggle */}
             <div className="p-4 fixed top-0 left-0 md:hidden z-40 bg-transparent">
                 <Drawer>
-                    <Drawer.Trigger>
-                        <Button className="flex justify-between items-center mx-auto" variant="secondary">
-                            <VscLayoutSidebarLeft className="w-5 h-5" />
-                        </Button>
-                    </Drawer.Trigger>
+                    <Button className="flex justify-between items-center mx-auto" variant="secondary">
+                        <VscLayoutSidebarLeft className="w-5 h-5" />
+                    </Button>
                     <Drawer.Backdrop>
                         <Drawer.Content placement="left">
                             <Drawer.Dialog className="h-full flex flex-col justify-between p-4 bg-white dark:bg-slate-950">

@@ -14,7 +14,7 @@ import {
     FiPercent,
     FiAlertTriangle
 } from "react-icons/fi";
-import { FaHouse } from "react-icons/fa6";
+import { FaHouse, FaSellcast } from "react-icons/fa6";
 import { BsHouse } from "react-icons/bs";
 
 export type UserRole = "user" | "admin";
@@ -41,13 +41,14 @@ const SidebarLinks: React.FC<SidebarLinksProps> = ({ user }) => {
 
     const userNavLinks: SidebarRoute[] = [
         { label: "Home", path: '/', icon: FaHouse},
-        { label: "Dashboard", path: `/dashboard/${userRole}`, icon: BsHouse},
+        { label: "Dashboard", path: `/dashboard/user`, icon: BsHouse},
         { label: "Marketplace Overview", path: "/dashboard", icon: FiHome },
-        { label: "My Listings (To Sell)", path: "/dashboard/my-listings", icon: FiTag },
-        { label: "My Purchases", path: "/dashboard/my-purchases", icon: FiShoppingBag },
-        { label: "Sales & Offers", path: "/dashboard/sales", icon: FiTrendingUp },
-        { label: "Inbox Messages", path: "/dashboard/messages", icon: FiMessageSquare },
-        { label: "Store Settings", path: "/dashboard/settings", icon: FiSettings },
+        { label: "Sell Item", path: `/dashboard/user/sell-item`, icon: FaSellcast },
+        { label: "My Listings (To Sell)", path: "/dashboard/user/my-listings", icon: FiTag },
+        { label: "My Purchases", path: "/dashboard/user/my-purchases", icon: FiShoppingBag },
+        { label: "Sales & Offers", path: "/dashboard/user/sales", icon: FiTrendingUp },
+        { label: "Inbox Messages", path: "/dashboard/user/messages", icon: FiMessageSquare },
+        { label: "Store Settings", path: "/dashboard/user/settings", icon: FiSettings },
     ];
     
     const adminNavLinks: SidebarRoute[] = [
