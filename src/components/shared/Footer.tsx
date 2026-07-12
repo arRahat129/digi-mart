@@ -23,9 +23,9 @@ export default function Footer() {
     ];
 
     const socialLinks = [
-        { icon: <FiGithub className="w-5 h-5" />, href: "https://github.com", label: "GitHub" },
-        { icon: <FiTwitter className="w-5 h-5" />, href: "https://twitter.com", label: "Twitter" },
-        { icon: <FiLinkedin className="w-5 h-5" />, href: "https://linkedin.com", label: "LinkedIn" },
+        { icon: <FiGithub className="w-5 h-5" />, href: "https://github.com/arRahat129", label: "GitHub" },
+        { icon: <FiTwitter className="w-5 h-5" />, href: "https://x.com/A_R_Rahat", label: "Twitter" },
+        { icon: <FiLinkedin className="w-5 h-5" />, href: "https://www.linkedin.com/in/mohammad-ashikur-rahman-rahat", label: "LinkedIn" },
     ];
 
     return (
@@ -112,7 +112,7 @@ export default function Footer() {
                                 href="mailto:ops@keenkeeper.io"
                                 className="text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-cyan-400 text-sm transition-colors"
                             >
-                                {"ops@keenkeeper.io"}
+                                {"rahashik129@gmail.com"}
                             </HeroLink>
                         </div>
                         <div className="flex items-start gap-2.5 text-sm text-slate-500 dark:text-slate-400">
@@ -129,7 +129,7 @@ export default function Footer() {
                 {/* Separator / Footer Bottom */}
                 <div className="pt-8 border-t border-slate-200 dark:border-slate-900 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500 dark:text-slate-600 font-mono">
                     <div>
-                        {`© ${currentYear} KeenKeeper Inc. All environments verified.`}
+                        {`© ${currentYear} DigiMart Inc. All environments verified.`}
                     </div>
                     <div className="flex items-center gap-6">
                         <span>{"STATUS: 200 OK"}</span>

@@ -10,6 +10,10 @@ import { usePathname } from 'next/navigation';
 import ThemeToggle from '../ThemeToggle';
 import { useSession, signOut } from '@/lib/auth-client';
 
+interface UserWithRole {
+    role?: string;
+}
+
 const Navbar: React.FC = () => {
     const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
     const [isMobileDropdownOpen, setIsMobileDropdownOpen] = useState<boolean>(false);
@@ -20,6 +24,7 @@ const Navbar: React.FC = () => {
     const { data: session, isPending } = useSession();
 
     const user = session?.user;
+    const userRole = (user as UserWithRole)?.role || 'user';
 
     const routes = [
         { name: 'Home', path: '/', icon: <FiHome className="w-4 h-4" /> },
@@ -145,7 +150,7 @@ const Navbar: React.FC = () => {
                                 {isDesktopDropdownOpen && (
                                     <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-slate-900 border border-blue-100 dark:border-slate-800 rounded-xl shadow-lg py-1.5 z-50 transition-all duration-200">
                                         <Link
-                                            href="/dashboard"
+                                            href={`/dashboard/${userRole || 'user'}`}
                                             onClick={() => setIsDesktopDropdownOpen(false)}
                                             className="flex items-center gap-2 px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800/60 transition-colors w-full"
                                         >
@@ -248,7 +253,7 @@ const Navbar: React.FC = () => {
                             {/* Mobile Dropdown Sub-menu Items */}
                             {isMobileDropdownOpen && (
                                 <div className="flex flex-col gap-2 pl-2 mt-1 transition-all duration-200">
-                                    <Link href="/dashboard" onClick={() => handleMobileAction(() => { })} className="w-full">
+                                    <Link href={`/dashboard/${userRole || 'user'}`} onClick={() => handleMobileAction(() => { })} className="w-full">
                                         <Button
                                             variant="outline"
                                             className="w-full border-blue-200 dark:border-blue-900 text-slate-700 dark:text-slate-300 font-medium rounded-lg flex items-center justify-start gap-3 px-4"
