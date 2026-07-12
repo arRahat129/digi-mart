@@ -32,6 +32,7 @@ import {
     FaInstagram,
     FaTwitter
 } from 'react-icons/fa';
+import { createSellPost } from '@/lib/actions/sell-item';
 
 interface FormData {
     title: string;
@@ -61,6 +62,7 @@ const SellItem: React.FC = () => {
     });
 
     const [isUploading, setIsUploading] = useState<boolean>(false);
+    const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const [error, setError] = useState<string>(" ");
 
     const categories = [
@@ -145,7 +147,7 @@ const SellItem: React.FC = () => {
         if (fileInput) fileInput.value = "";
     };
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setError("");
 
@@ -201,8 +203,30 @@ const SellItem: React.FC = () => {
             sellerMessage: formData.sellerMessage.trim() || 'Contact me'
         };
 
-        console.log(finalSubmissionData);
-        toast.success("Listing captured to console successfully!");
+        setIsSubmitting(true);
+
+        try {
+            const response = await createSellPost(finalSubmissionData);
+
+            if (response.success) {
+                toast.success(response.message || "Listing published successfully!");
+                handleRemoveImage();
+                setFormData({
+                    title: '', category: '', description: '', price: '',
+                    conditionYears: '', purchaseDate: '', imageUrl: '',
+                    contactMethod: 'whatsapp', contactDetails: '', sellerMessage: ''
+                });
+            } else {
+                setError(response.message || "Failed to publish listing.");
+                toast.error("Submission failed");
+            }
+        } catch (submissionError) {
+            console.error(submissionError);
+            setError("An unexpected network error occurred while submitting your listing.");
+            toast.error("Network error during submission");
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     const labelStyles = "text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1 block";
@@ -478,10 +502,10 @@ const SellItem: React.FC = () => {
                             </Button>
                             <Button
                                 type="submit"
-                                isDisabled={isUploading}
+                                isDisabled={isUploading || isSubmitting}
                                 className="bg-blue-600 text-white font-bold rounded-xl px-8 shadow-md shadow-blue-500/10 hover:bg-blue-700 transition-all border-none"
                             >
-                                Submit Listing
+                                {isSubmitting ? "Submitting..." : "Submit Listing"}
                             </Button>
                         </div>
 
