@@ -106,7 +106,9 @@ const ItemDetailsPage = async ({ params }: PageProps) => {
                     </div>
                     <aside>
                         <ActionSidebar
+                            itemId={id as string}
                             price={itemData.price}
+                            userId={itemData.userId}
                             userImage={itemData.userImage}
                             userName={itemData.userName}
                             userRole={itemData.userRole}

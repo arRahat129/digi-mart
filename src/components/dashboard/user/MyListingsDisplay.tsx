@@ -171,12 +171,12 @@ const MyListingsDisplay: React.FC<MyListingsDisplayProps> = ({ items, onStatusTo
                                         Age: {item.conditionYears} {parseInt(item.conditionYears) === 1 ? 'year' : 'years'}
                                     </span>
                                     <div className="flex items-center gap-1">
-                                        <button
-                                            onClick={() => console.log('View', item._id)}
+                                        <Link
+                                            href={`/items/${item?._id}`}
                                             className="p-2 text-zinc-600 dark:text-zinc-400 hover:text-[#244D3F] dark:hover:text-emerald-400 hover:bg-zinc-50 dark:hover:bg-zinc-800 rounded-xl transition-colors"
                                         >
                                             <HiOutlineEye className="w-5 h-5" />
-                                        </button>
+                                        </Link>
                                         <button
                                             onClick={() => console.log('Edit', item._id)}
                                             className="p-2 text-zinc-600 dark:text-zinc-400 hover:text-[#244D3F] dark:hover:text-emerald-400 hover:bg-zinc-50 dark:hover:bg-zinc-800 rounded-xl transition-colors"
@@ -298,12 +298,12 @@ const MyListingsDisplay: React.FC<MyListingsDisplayProps> = ({ items, onStatusTo
 
                                     <td className="p-6 text-right">
                                         <div className="flex items-center justify-end gap-1">
-                                            <button
-                                                onClick={() => console.log('View', item._id)}
+                                            <Link
+                                                href={`/items/${item?._id}`}
                                                 className="p-2 text-zinc-400 hover:text-[#244D3F] dark:hover:text-emerald-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-xl transition-colors"
                                             >
                                                 <HiOutlineEye className="w-5 h-5" />
-                                            </button>
+                                            </Link>
                                             <button
                                                 onClick={() => console.log('Edit', item._id)}
                                                 className="p-2 text-zinc-400 hover:text-[#244D3F] dark:hover:text-emerald-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-xl transition-colors"

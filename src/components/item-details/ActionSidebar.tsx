@@ -1,16 +1,20 @@
 import Image from 'next/image';
 import React from 'react';
 import {
-    HiOutlinePhone,
-    HiOutlineChatBubbleLeftRight,
     HiOutlineShieldCheck,
     HiOutlineChatBubbleBottomCenterText,
 } from 'react-icons/hi2';
 import { FaWhatsapp } from 'react-icons/fa';
 import { FaFacebook, FaInstagram, FaXTwitter } from 'react-icons/fa6';
+import { InAppMessageModal } from '../modals/InAppMessageModal';
+import { getUserSession } from '@/lib/core/session';
+import Link from 'next/link';
+import { BiEditAlt } from 'react-icons/bi';
 
 interface ActionSidebarProps {
+    itemId: string;
     price: string;
+    userId: string;
     userImage: string;
     userName: string;
     userRole: string;
@@ -19,8 +23,10 @@ interface ActionSidebarProps {
     isAvailable: boolean;
 }
 
-export const ActionSidebar = ({
+export const ActionSidebar = async ({
+    itemId,
     price,
+    userId,
     userImage,
     userName,
     userRole,
@@ -28,6 +34,12 @@ export const ActionSidebar = ({
     contactDetails,
     isAvailable,
 }: ActionSidebarProps) => {
+
+    const currentUser = await getUserSession();
+    console.log(currentUser);
+
+    const isOwner = currentUser?.id === userId;
+
     const getContactHref = () => {
         const cleanDetails = contactDetails.replace(/[@]/g, '').trim();
 
@@ -123,8 +135,14 @@ export const ActionSidebar = ({
                     </div>
 
                     <div className="space-y-1">
-                        <h4 className="text-sm font-bold text-slate-900 dark:text-slate-100">
+                        <h4 className={`text-sm font-bold text-slate-900 dark:text-slate-100 ${isOwner && 'flex items-center gap-2'}`}>
                             {userName}
+
+                            {isOwner && (
+                                <span className="rounded-md bg-emerald-100 px-1.5 py-0.5 text-[10px] font-medium tracking-wide uppercase text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/20">
+                                    Owner
+                                </span>
+                            )}
                         </h4>
 
                         <span className="inline-flex rounded-full bg-blue-100 px-2.5 py-1 text-[10px] font-semibold capitalize text-blue-700 dark:bg-blue-500/15 dark:text-blue-400">
@@ -134,19 +152,7 @@ export const ActionSidebar = ({
                 </div>
 
                 <div className="mt-6 space-y-3">
-                    {isAvailable ? (
-                        <>
-                            {renderContactButton()}
-
-                            <button
-                                type="button"
-                                className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-blue-100 bg-blue-50 px-4 py-3 text-sm font-semibold text-slate-700 transition hover:bg-blue-100 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700"
-                            >
-                                <HiOutlineChatBubbleLeftRight className="h-5 w-5" />
-                                In-App Message
-                            </button>
-                        </>
-                    ) : (
+                    {!isAvailable ? (
                         <button
                             type="button"
                             disabled
@@ -154,6 +160,26 @@ export const ActionSidebar = ({
                         >
                             Listing Closed
                         </button>
+                    ) : isOwner ? (
+                        <Link href={`/items/${itemId}/edit`}
+                            className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-600 px-4 py-3 text-sm font-semibold text-white transition duration-200 hover:bg-emerald-500 dark:bg-emerald-700 dark:hover:bg-emerald-600"
+                        >
+                            <BiEditAlt className="h-5 w-5" />
+                            Edit Listing details
+                        </Link>
+                    ) : (
+                        <>
+                            {renderContactButton()}
+
+                            <InAppMessageModal
+                                sellerInfo={{
+                                    id: userId,
+                                    name: userName,
+                                    image: userImage
+                                }}
+                                itemId={itemId}
+                            />
+                        </>
                     )}
                 </div>
             </div>

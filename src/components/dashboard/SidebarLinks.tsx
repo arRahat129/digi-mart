@@ -42,11 +42,9 @@ const SidebarLinks: React.FC<SidebarLinksProps> = ({ user }) => {
     const userNavLinks: SidebarRoute[] = [
         { label: "Home", path: '/', icon: FaHouse},
         { label: "Dashboard", path: `/dashboard/user`, icon: BsHouse},
-        { label: "Marketplace Overview", path: "/dashboard", icon: FiHome },
         { label: "Sell Item", path: `/dashboard/user/sell-item`, icon: FaSellcast },
         { label: "My Listings (To Sell)", path: "/dashboard/user/my-listings", icon: FiTag },
         { label: "My Purchases", path: "/dashboard/user/my-purchases", icon: FiShoppingBag },
-        { label: "Sales & Offers", path: "/dashboard/user/sales", icon: FiTrendingUp },
         { label: "Inbox Messages", path: "/dashboard/user/messages", icon: FiMessageSquare },
         { label: "Store Settings", path: "/dashboard/user/settings", icon: FiSettings },
     ];
