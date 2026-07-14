@@ -28,10 +28,15 @@ export interface ChatThread {
     sellerId: string;
     itemId: string;
     lastMessage: string;
-    lastMessageAt: string;
-    buyer?: ProfileSnapshot;
-    seller?: ProfileSnapshot;
-    item?: ItemSnapshot;
+    lastMessageAt: Date;
+    buyer: { name: string; image: string; email: string };
+    seller: { name: string; image: string; location: string };
+    item: {
+        title: string;
+        price: number;
+        image: string;
+        status: "pending" | "accepted" | "rejected";
+    };
 }
 
 export interface ChatMessage {
@@ -40,6 +45,7 @@ export interface ChatMessage {
     senderId: string;
     message: string;
     timestamp: string;
+    status?: "pending" | "accepted" | "rejected";
 }
 
 

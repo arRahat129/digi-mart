@@ -52,7 +52,9 @@ const MyListingsPage = async () => {
                     }
                 </div>
 
-                <MyListingsDisplay items={itemsArray} />
+                <MyListingsDisplay
+                    items={itemsArray}
+                />
             </div>
         </div>
     );

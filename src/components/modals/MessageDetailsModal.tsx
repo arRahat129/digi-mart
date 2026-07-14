@@ -16,16 +16,29 @@ export interface DetailedMessageItem {
     sellerImage?: string;
     location?: string;
     contact?: string;
+    status?: "pending" | "accepted" | "rejected";
 }
 
 interface MessageDetailsModalProps {
     message: DetailedMessageItem | null;
     isOpen: boolean;
     onClose: () => void;
+    currentUserId: string; // Add this
+    onStatusChange: (msgId: string, status: "accepted" | "rejected") => void; // Add this
 }
 
-export function MessageDetailsModal({ message, isOpen, onClose }: MessageDetailsModalProps) {
+export function MessageDetailsModal({ message, isOpen, onClose, currentUserId, onStatusChange }: MessageDetailsModalProps) {
+    console.log("Debug Modal State:", {
+        currentUserId,
+        sellerId: message?.sellerId,
+        messageStatus: message?.status,
+        isSellerMatch: message?.sellerId === currentUserId,
+        isStatusPending: message?.status === 'pending'
+    });
     if (!message) return null;
+
+    const isSeller = message.sellerId === currentUserId;
+    const isPending = message.status === 'pending';
 
     const formattedTime = new Date(message.timestamp).toLocaleDateString('en-US', {
         month: 'short',
@@ -89,12 +102,35 @@ export function MessageDetailsModal({ message, isOpen, onClose }: MessageDetails
                                         </div>
                                     )}
                                 </div>
+                                {isSeller && isPending ? (
+                                    <div className="bg-neutral-50 dark:bg-neutral-800/50 p-4 rounded-xl border border-neutral-200 dark:border-neutral-700">
+                                        <p className="text-xs font-bold text-neutral-500 mb-3 uppercase">Action Required</p>
+                                        <div className="flex gap-3">
+                                            <Button
+                                                className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold"
+                                                onPress={() => onStatusChange(message._id, 'accepted')}
+                                            >
+                                                Accept
+                                            </Button>
+                                            <Button
+                                                className="flex-1 bg-red-600 hover:bg-red-700 text-white font-semibold"
+                                                onPress={() => onStatusChange(message._id, 'rejected')}
+                                            >
+                                                Reject
+                                            </Button>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <div className="flex items-center gap-2 p-3 rounded-lg text-sm text-neutral-600">
+                                        Status: <span className="font-bold capitalize">{message.status}</span>
+                                    </div>
+                                )}
                             </Surface>
                         </Modal.Body>
 
-                        <Modal.Footer>
-                            <Button slot="close" variant="secondary" type="button" onPress={onClose} className="w-full sm:w-auto">
-                                Close Window
+                        <Modal.Footer className="flex flex-col gap-2">
+                            <Button slot="close" variant="secondary" onPress={onClose} className="w-full">
+                                Close
                             </Button>
                         </Modal.Footer>
                     </Modal.Dialog>

@@ -8,6 +8,7 @@ import { ChatThread, getChatMessages, ChatMessage } from '@/lib/api/messages';
 import { MessageListClient } from './MessageListClient';
 import { DetailedMessageItem } from '../modals/MessageDetailsModal';
 import toast from 'react-hot-toast';
+import { processRequestAction } from '@/lib/actions/messages';
 
 interface ChatListClientProps {
     initialThreads: ChatThread[];
@@ -37,13 +38,13 @@ export function ChatListClient({ initialThreads, currentUserId }: ChatListClient
                     _id: msg._id,
                     message: msg.message,
                     timestamp: msg.timestamp,
+                    status: msg.status || 'pending',
                     buyerId: chat.buyerId,
                     sellerId: chat.sellerId,
                     buyerName: chat.buyer?.name || 'Buyer',
                     buyerImage: chat.buyer?.image || '',
                     sellerName: chat.seller?.name || 'Seller',
                     sellerImage: chat.seller?.image || '',
-                    // Fallbacks from thread metadata if detailed fields are empty
                     location: 'In-App Transaction',
                     contact: chat.buyer?.email || ''
                 }));
@@ -57,6 +58,29 @@ export function ChatListClient({ initialThreads, currentUserId }: ChatListClient
             toast.error("Could not recover conversations.");
         } finally {
             setIsLoadingMessages(false);
+        }
+    };
+
+    const handleRequestAction = async (messageId: string, action: "accepted" | "rejected") => {
+        if (!selectedChat) return;
+
+        try {
+            // Map "accepted" -> "accept" and "rejected" -> "reject"
+            const mappedAction = action === "accepted" ? "accept" : "reject";
+
+            const response = await processRequestAction(messageId, selectedChat.itemId, mappedAction);
+
+            if (response.success) {
+                toast.success(`Request ${action} successfully.`);
+                setMessages((prev) => prev.filter((m) => m._id !== messageId));
+
+                const remaining = messages.filter((m) => m._id !== messageId);
+                if (remaining.length === 0) {
+                    setSelectedChat(null);
+                }
+            }
+        } catch (error) {
+            toast.error("An error occurred.");
         }
     };
 
@@ -172,7 +196,8 @@ export function ChatListClient({ initialThreads, currentUserId }: ChatListClient
                                                 No specific logged context.
                                             </p>
                                         ) : (
-                                            <MessageListClient messages={messages} currentUserId={currentUserId} />
+                                            <MessageListClient messages={messages} currentUserId={currentUserId}
+                                                onAction={handleRequestAction} />
                                         )}
                                     </div>
 
