@@ -10,7 +10,7 @@ import toast from 'react-hot-toast';
 interface MessageListClientProps {
     messages: DetailedMessageItem[];
     currentUserId: string;
-    onAction: (messageId: string, action: "accepted" | "rejected") => Promise<void>;
+    onAction: (messageId: string, action: "accepted" | "rejected", sellerId: string) => Promise<void>;
 }
 
 export function MessageListClient({ messages, currentUserId, onAction }: MessageListClientProps) {
@@ -24,9 +24,9 @@ export function MessageListClient({ messages, currentUserId, onAction }: Message
         setIsModalOpen(true);
     };
 
-    const handleStatusChange = async (msgId: string, status: "accepted" | "rejected") => {
+    const handleStatusChange = async (msgId: string, status: "accepted" | "rejected", sellerId: string) => {
         try {
-            await onAction(msgId, status);
+            await onAction(msgId, status, sellerId);
             toast.success(`Message ${status} successfully.`);
             setIsModalOpen(false); // Close modal if open
             router.refresh();
@@ -112,13 +112,13 @@ export function MessageListClient({ messages, currentUserId, onAction }: Message
                                 {isSeller && msg.status === 'pending' && (
                                     <div className="flex gap-2 w-full mt-2 sm:mt-0 sm:w-auto">
                                         <button
-                                            onClick={(e) => { e.stopPropagation(); handleStatusChange(msg._id, 'accepted'); }}
+                                            onClick={(e) => { e.stopPropagation(); handleStatusChange(msg._id, 'accepted', msg.sellerId); }}
                                             className="text-xs bg-emerald-500 text-white px-4 py-2 rounded-lg hover:bg-emerald-600 transition"
                                         >
                                             Accept
                                         </button>
                                         <button
-                                            onClick={(e) => { e.stopPropagation(); handleStatusChange(msg._id, 'rejected'); }}
+                                            onClick={(e) => { e.stopPropagation(); handleStatusChange(msg._id, 'rejected', msg.sellerId); }}
                                             className="text-xs bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition"
                                         >
                                             Reject

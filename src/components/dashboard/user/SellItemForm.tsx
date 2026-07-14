@@ -34,6 +34,7 @@ import {
     FaTwitter
 } from 'react-icons/fa';
 import { createSellPost } from '@/lib/actions/sell-item';
+import { useRouter } from 'next/navigation';
 
 interface FormData {
     title: string;
@@ -64,6 +65,7 @@ export interface SellItemFormProps {
 }
 
 const SellItemForm: React.FC<SellItemFormProps> = ({ user }) => {
+    const router = useRouter();
     // console.log(user);
     const [formData, setFormData] = useState<FormData>({
         title: '',
@@ -239,6 +241,7 @@ const SellItemForm: React.FC<SellItemFormProps> = ({ user }) => {
                     userImage: user.image || '',
                     userRole: user.role || 'user'
                 });
+                router.push('/dashboard/user/my-listings');
             } else {
                 setError(response.message || "Failed to publish listing.");
                 toast.error("Submission failed");

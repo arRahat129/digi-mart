@@ -38,26 +38,21 @@ interface SidebarRoute {
 const SidebarLinks: React.FC<SidebarLinksProps> = ({ user }) => {
     const pathname = usePathname();
     const userRole: UserRole = user?.role === "admin" ? "admin" : "user";
+    console.log('role', userRole);
 
     const userNavLinks: SidebarRoute[] = [
         { label: "Home", path: '/', icon: FaHouse},
         { label: "Dashboard", path: `/dashboard/user`, icon: BsHouse},
         { label: "Sell Item", path: `/dashboard/user/sell-item`, icon: FaSellcast },
         { label: "My Listings (To Sell)", path: "/dashboard/user/my-listings", icon: FiTag },
-        { label: "My Purchases", path: "/dashboard/user/my-purchases", icon: FiShoppingBag },
         { label: "Inbox Messages", path: "/dashboard/user/messages", icon: FiMessageSquare },
-        { label: "Store Settings", path: "/dashboard/user/settings", icon: FiSettings },
     ];
     
     const adminNavLinks: SidebarRoute[] = [
         { label: "Home", path: '/', icon: FaHouse},
-        { label: "Dashboard", path: `/dashboard/${userRole}`, icon: BsHouse},
-        { label: "Admin Analytics", path: "/dashboard/admin", icon: FiHome },
+        { label: "Dashboard", path: `/dashboard/admin`, icon: BsHouse},
         { label: "Manage Users", path: "/dashboard/admin/all-users", icon: FiUsers },
         { label: "All Product Listings", path: "/dashboard/admin/all-listings", icon: FiTag },
-        { label: "Platform Payments", path: "/dashboard/admin/payments", icon: FiPercent },
-        { label: "Reported Items", path: "/dashboard/admin/reports", icon: FiAlertTriangle },
-        { label: "Global Settings", path: "/dashboard/admin/settings", icon: FiSettings },
     ];
 
     const navigationItems = userRole === "admin" ? adminNavLinks : userNavLinks;

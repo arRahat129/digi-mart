@@ -3,13 +3,35 @@ import { VscLayoutSidebarLeft } from "react-icons/vsc";
 import SidebarFooter from "./SidebarFooter";
 import SidebarLinks from "./SidebarLinks";
 import SidebarHeader from "./SidebarHeader";
+import { getUserSession } from "@/lib/core/session";
+
+export interface User {
+    id: string;
+    name: string;
+    email: string;
+    emailVerified: boolean;
+    image?: string | null;
+    role: 'admin' | 'user';
+    plan: string;
+    createdAt: Date;
+    updatedAt: Date;
+}
 
 const DashboardSidebar = async () => {
-    const user = {
-        role: "user" as const,
-        name: "Test User",
-        email: "user@example.com"
-    };
+    const sessionUser = await getUserSession();
+    console.log(sessionUser);
+
+    const user: User | null = sessionUser ? {
+        id: sessionUser.id,
+        name: sessionUser.name,
+        email: sessionUser.email,
+        emailVerified: sessionUser.emailVerified,
+        image: sessionUser.image || null,
+        role: (sessionUser.role === 'admin' ? 'admin' : 'user'),
+        plan: sessionUser.plan || 'user_free',
+        createdAt: sessionUser.createdAt,
+        updatedAt: sessionUser.updatedAt
+    } : null;
 
     return (
         <>

@@ -24,7 +24,7 @@ interface MessageDetailsModalProps {
     isOpen: boolean;
     onClose: () => void;
     currentUserId: string; // Add this
-    onStatusChange: (msgId: string, status: "accepted" | "rejected") => void; // Add this
+    onStatusChange: (msgId: string, status: "accepted" | "rejected", sellerId: string) => void; // Add this
 }
 
 export function MessageDetailsModal({ message, isOpen, onClose, currentUserId, onStatusChange }: MessageDetailsModalProps) {
@@ -80,7 +80,7 @@ export function MessageDetailsModal({ message, isOpen, onClose, currentUserId, o
                                 <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                                     {message.location && (
                                         <div className="flex items-center gap-3 rounded-xl border border-neutral-100 p-3 dark:border-neutral-800">
-                                            <BiMap className="size-5 text-neutral-400 flex-shrink-0" />
+                                            <BiMap className="size-5 text-neutral-400 shrink-0" />
                                             <div className="min-w-0">
                                                 <p className="text-xs font-medium text-neutral-400">Location</p>
                                                 <p className="text-sm font-semibold text-neutral-700 dark:text-neutral-200 truncate">
@@ -92,7 +92,7 @@ export function MessageDetailsModal({ message, isOpen, onClose, currentUserId, o
 
                                     {message.contact && (
                                         <div className="flex items-center gap-3 rounded-xl border border-neutral-100 p-3 dark:border-neutral-800">
-                                            <BiPhone className="size-5 text-neutral-400 flex-shrink-0" />
+                                            <BiPhone className="size-5 text-neutral-400 shrink-0" />
                                             <div className="min-w-0">
                                                 <p className="text-xs font-medium text-neutral-400">Contact Info</p>
                                                 <p className="text-sm font-semibold text-neutral-700 dark:text-neutral-200 truncate">
@@ -108,13 +108,13 @@ export function MessageDetailsModal({ message, isOpen, onClose, currentUserId, o
                                         <div className="flex gap-3">
                                             <Button
                                                 className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold"
-                                                onPress={() => onStatusChange(message._id, 'accepted')}
+                                                onPress={() => onStatusChange(message._id, 'accepted', message.sellerId)}
                                             >
                                                 Accept
                                             </Button>
                                             <Button
                                                 className="flex-1 bg-red-600 hover:bg-red-700 text-white font-semibold"
-                                                onPress={() => onStatusChange(message._id, 'rejected')}
+                                                onPress={() => onStatusChange(message._id, 'rejected', message.sellerId)}
                                             >
                                                 Reject
                                             </Button>
