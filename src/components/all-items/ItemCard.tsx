@@ -23,7 +23,7 @@ export default function ItemCard({ item }: { item: ListingItem }) {
     const isAvailable = item.availability === 'available';
 
     return (
-        <div className="group bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200/60 dark:border-zinc-800 shadow-xs overflow-hidden flex flex-col h-105 w-full transition-all hover:shadow-md hover:border-zinc-300 dark:hover:border-zinc-700">
+        <div className="group bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200/60 dark:border-zinc-800 shadow-xs overflow-hidden flex flex-col w-full h-112.5 transition-all hover:shadow-md">
             <div className="relative w-full h-48 bg-zinc-100 dark:bg-zinc-950 overflow-hidden shrink-0">
                 <Image
                     src={item.imageUrl}

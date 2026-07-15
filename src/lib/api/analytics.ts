@@ -2,37 +2,37 @@
 
 import { serverFetch } from "../core/server";
 
-export interface AnalyticsData {
-    summary: {
-        totalInventory: number;
-        totalRequests: number;
-        acceptedDeals: number;
-        pendingDeals: number;
-    };
-    activityTrend: Array<{ _id: string; count: number }>;
-}
 
-export interface AnalyticsResponse {
+export interface UserAnalyticsResponse {
     success: boolean;
-    data: AnalyticsData;
+    data: {
+        inventoryCount: number;
+        totalRequestsSent: number;
+        totalRequestsReceived: number;
+        acceptedDeals: number;
+        activityTrend: Array<{ _id: string; count: number }>;
+    };
 }
 
-export const getDashboardAnalytics = async (userId: string): Promise<AnalyticsResponse> => {
-    if (!userId) {
-        throw new Error("User ID is required to fetch analytics.");
-    }
+export interface AdminAnalyticsResponse {
+    success: boolean;
+    data: {
+        platformOverview: {
+            totalUsers: number;
+            totalItems: number;
+            totalMessages: number;
+            activeListings: number;
+            completedDeals: number;
+        };
+    };
+}
 
-    try {
-        // Fetch from the new analytics endpoint
-        const response = await serverFetch<AnalyticsResponse>(`/api/analytics/${userId}`);
+// 1. Fetch User Analytics
+export const getUserAnalytics = async (userId: string): Promise<UserAnalyticsResponse> => {
+    return await serverFetch<UserAnalyticsResponse>(`/api/analytics/${userId}`);
+};
 
-        if (!response.success) {
-            throw new Error("Failed to retrieve analytics data.");
-        }
-
-        return response;
-    } catch (error) {
-        console.error(`Failed to execute getDashboardAnalytics for ID: ${userId}`, error);
-        throw error;
-    }
+// 2. Fetch Admin Analytics
+export const getAdminAnalytics = async (): Promise<AdminAnalyticsResponse> => {
+    return await serverFetch<AdminAnalyticsResponse>(`/api/admin/analytics`);
 };

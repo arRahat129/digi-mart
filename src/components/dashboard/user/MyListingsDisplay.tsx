@@ -196,7 +196,7 @@ const MyListingsDisplay: React.FC<MyListingsDisplayProps> = ({ items }) => {
                                     <div className="flex items-center justify-end gap-1">
                                         <Link href={`/items/${item._id}`} className="p-2 rounded-xl hover:bg-zinc-100"><HiOutlineEye className="w-5 h-5" /></Link>
                                         <div className="relative dropdown-container">
-                                            <button onClick={() => setOpenDropdownId(openDropdownId === item._id ? null : item._id)} className="p-2 rounded-xl hover:bg-zinc-100"><HiOutlineChevronDown className="w-4 h-4" /></button>
+                                            <button onClick={() => setOpenDropdownId(openDropdownId === item._id ? null : item._id)} className="p-2 rounded-xl hover:bg-zinc-100 dark:hover:bg-zinc-800"><HiOutlineChevronDown className="w-4 h-4" /></button>
                                             {openDropdownId === item._id && <ActionDropdown item={item} />}
                                         </div>
                                     </div>

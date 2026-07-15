@@ -161,7 +161,7 @@ export const ActionSidebar = async ({
                             Listing Closed
                         </button>
                     ) : isOwner ? (
-                        <Link href={`/items/${itemId}/edit`}
+                        <Link href={`/dashboard/user/my-listings`}
                             className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-600 px-4 py-3 text-sm font-semibold text-white transition duration-200 hover:bg-emerald-500 dark:bg-emerald-700 dark:hover:bg-emerald-600"
                         >
                             <BiEditAlt className="h-5 w-5" />
