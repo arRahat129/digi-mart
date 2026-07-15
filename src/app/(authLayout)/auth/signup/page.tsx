@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { Button, Card, CardHeader, Input, Separator } from "@heroui/react";
 import { FiEye, FiEyeOff, FiMail, FiLock, FiUser, FiUploadCloud, FiHome, FiGrid, FiX } from 'react-icons/fi';
 import { FcGoogle } from 'react-icons/fc';
@@ -14,6 +14,9 @@ import ThemeToggle from '@/components/ThemeToggle';
 
 export default function SignUpPage() {
     const router = useRouter();
+    const searchParams = useSearchParams();
+    const redirectTo = searchParams.get("redirect") || "/";
+
     const [isVisible, setIsVisible] = useState<boolean>(false);
     const [isConfirmVisible, setIsConfirmVisible] = useState<boolean>(false);
 
@@ -129,7 +132,7 @@ export default function SignUpPage() {
             setImage("");
             setPassword("");
             setConfirmPassword("");
-            router.push('/');
+            router.push(redirectTo);
 
         } catch (networkError) {
             console.error(networkError);
@@ -144,7 +147,7 @@ export default function SignUpPage() {
         try {
             await signIn.social({
                 provider: "google",
-                callbackURL: "/",
+                callbackURL: redirectTo,
             });
         } catch (authError) {
             console.error(authError);
@@ -352,7 +355,7 @@ export default function SignUpPage() {
 
                     <p className="text-center text-xs text-slate-500 dark:text-slate-400">
                         Already have an account?{" "}
-                        <Link href="/auth/signin" className="font-bold text-blue-600 dark:text-cyan-400 hover:underline">
+                        <Link href={`/auth/signin?redirect=${redirectTo}`} className="font-bold text-blue-600 dark:text-cyan-400 hover:underline">
                             Sign In Here
                         </Link>
                     </p>

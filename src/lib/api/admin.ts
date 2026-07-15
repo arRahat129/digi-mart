@@ -121,3 +121,12 @@ export const toggleFeaturedProduct = async (itemId: string, productDetails: Item
 export const deleteProductAdmin = async (itemId: string): Promise<DeleteResponse> => {
     return await serverMutation<DeleteResponse>(`/api/admin/items/${itemId}`, {}, "DELETE");
 };
+
+export const getAllItemsForReview = async (page: number = 1, limit: number = 10): Promise<PaginatedItemsResponse> => {
+    return await serverFetch<PaginatedItemsResponse>(`/api/admin/items/review?page=${page}&limit=${limit}`);
+};
+
+// Update item status (Approve/Reject)
+export const updateItemStatus = async (itemId: string, status: 'Approved' | 'Rejected') => {
+    return await serverMutation(`/api/admin/items/status/${itemId}`, { status }, "PATCH");
+};

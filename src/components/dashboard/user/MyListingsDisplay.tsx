@@ -189,12 +189,12 @@ const MyListingsDisplay: React.FC<MyListingsDisplayProps> = ({ items }) => {
                             <tr key={item._id} className="hover:bg-zinc-50 dark:hover:bg-zinc-800/30">
                                 <td className="p-6"><div className="flex justify-center">{getStatusDot(item.status)}</div></td>
                                 <td className="p-6 font-bold">{item.title}</td>
-                                <td className="p-6"><span className="text-xs font-semibold capitalize bg-zinc-100 px-2.5 py-1 rounded-md">{item.category}</span></td>
+                                <td className="p-6"><span className="text-xs font-semibold capitalize  text-[#244D3F] dark:text-emerald-400 px-2.5 py-1 rounded-md">{item.category}</span></td>
                                 <td className="p-6 font-bold">${parseFloat(item.price).toFixed(2)}</td>
                                 <td className="p-6 text-sm">{item.conditionYears} years</td>
                                 <td className="p-6 text-right">
                                     <div className="flex items-center justify-end gap-1">
-                                        <Link href={`/items/${item._id}`} className="p-2 rounded-xl hover:bg-zinc-100"><HiOutlineEye className="w-5 h-5" /></Link>
+                                        <Link href={`/items/${item._id}`} className="p-2 rounded-xl hover:bg-zinc-100 dark:hover:bg-zinc-800"><HiOutlineEye className="w-5 h-5" /></Link>
                                         <div className="relative dropdown-container">
                                             <button onClick={() => setOpenDropdownId(openDropdownId === item._id ? null : item._id)} className="p-2 rounded-xl hover:bg-zinc-100 dark:hover:bg-zinc-800"><HiOutlineChevronDown className="w-4 h-4" /></button>
                                             {openDropdownId === item._id && <ActionDropdown item={item} />}

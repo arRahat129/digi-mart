@@ -6,7 +6,7 @@ import { FiMenu, FiX, FiHome, FiPackage, FiDollarSign, FiLogOut, FiLayout, FiChe
 import logoImg from '@/assets/images/DigiMartLogo.png';
 import Image from 'next/image';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import ThemeToggle from '../ThemeToggle';
 import { useSession, signOut } from '@/lib/auth-client';
 
@@ -15,6 +15,7 @@ interface UserWithRole {
 }
 
 const Navbar: React.FC = () => {
+    const router = useRouter();
     const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
     const [isMobileDropdownOpen, setIsMobileDropdownOpen] = useState<boolean>(false);
     const [isDesktopDropdownOpen, setIsDesktopDropdownOpen] = useState<boolean>(false);
@@ -47,6 +48,16 @@ const Navbar: React.FC = () => {
         setIsMobileDropdownOpen(false);
         setIsMenuOpen(false);
         action();
+    };
+
+    const handleSignOut = async () => {
+        await signOut({
+            fetchOptions: {
+                onSuccess: () => {
+                    router.push('/auth/signin');
+                },
+            },
+        });
     };
 
     return (
@@ -160,7 +171,7 @@ const Navbar: React.FC = () => {
                                         <button
                                             onClick={() => {
                                                 setIsDesktopDropdownOpen(false);
-                                                signOut();
+                                                handleSignOut();
                                             }}
                                             className="flex items-center gap-2 px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/20 transition-colors w-full text-left"
                                         >
@@ -263,7 +274,7 @@ const Navbar: React.FC = () => {
                                         </Button>
                                     </Link>
                                     <Button
-                                        onClick={() => handleMobileAction(() => signOut())}
+                                        onClick={() => handleMobileAction(() => handleSignOut())}
                                         variant="outline"
                                         className="w-full font-medium rounded-lg text-red-600 dark:text-red-400 border-red-200 dark:border-red-900 flex items-center justify-start gap-3 px-4"
                                     >

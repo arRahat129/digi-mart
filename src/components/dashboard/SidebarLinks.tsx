@@ -4,18 +4,13 @@ import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
-    FiHome,
-    FiShoppingBag,
     FiTag,
-    FiTrendingUp,
     FiMessageSquare,
-    FiSettings,
     FiUsers,
-    FiPercent,
-    FiAlertTriangle
 } from "react-icons/fi";
 import { FaHouse, FaSellcast } from "react-icons/fa6";
 import { BsHouse } from "react-icons/bs";
+import { MdReviews } from "react-icons/md";
 
 export type UserRole = "user" | "admin";
 
@@ -53,6 +48,7 @@ const SidebarLinks: React.FC<SidebarLinksProps> = ({ user }) => {
         { label: "Dashboard", path: `/dashboard/admin`, icon: BsHouse},
         { label: "Manage Users", path: "/dashboard/admin/all-users", icon: FiUsers },
         { label: "All Product Listings", path: "/dashboard/admin/all-items", icon: FiTag },
+        { label: "Review Item", path: "/dashboard/admin/review-item", icon: MdReviews },
     ];
 
     const navigationItems = userRole === "admin" ? adminNavLinks : userNavLinks;

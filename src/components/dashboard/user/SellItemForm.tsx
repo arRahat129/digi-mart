@@ -64,6 +64,8 @@ export interface SellItemFormProps {
     };
 }
 
+const DEFAULT_FALLBACK_IMAGE = 'https://i.ibb.co.com/N0JFXfB/image.png';
+
 const SellItemForm: React.FC<SellItemFormProps> = ({ user }) => {
     const router = useRouter();
     // console.log(user);
@@ -214,8 +216,11 @@ const SellItemForm: React.FC<SellItemFormProps> = ({ user }) => {
             }
         }
 
+        const finalImageUrl = formData.imageUrl.trim() || DEFAULT_FALLBACK_IMAGE;
+
         const finalSubmissionData = {
             ...formData,
+            imageUrl: finalImageUrl,
             contactDetails: processedContactDetails,
             sellerMessage: formData.sellerMessage.trim() || 'Contact me',
             address: formData.address.trim(),

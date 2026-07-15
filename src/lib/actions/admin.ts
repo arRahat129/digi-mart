@@ -1,7 +1,12 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
-import { deleteProductAdmin, deleteUser, getAllItemsAdmin, Item, toggleFeaturedProduct, updateUserRole } from '../api/admin';
+import { deleteProductAdmin, deleteUser, getAllItemsAdmin, getAllItemsForReview, Item, toggleFeaturedProduct, updateItemStatus, updateUserRole } from '../api/admin';
+
+export interface ActionResponse {
+    success: boolean;
+    message?: string;
+}
 
 // Action to update user role
 export const actionUpdateUserRole = async (userId: string, role: string) => {
@@ -49,6 +54,24 @@ export const actionDeleteProduct = async (itemId: string) => {
         return result;
     } catch (error) {
         console.error("Action Error: Failed to delete product", error);
+        throw error;
+    }
+};
+
+export const actionGetAllItemsForReview = async (page: number = 1) => {
+    return await getAllItemsForReview(page);
+};
+
+// Action to approve or reject an item
+export const actionUpdateItemStatus = async (itemId: string, status: 'Approved' | 'Rejected'): Promise<ActionResponse> => {
+    try {
+        const result = await updateItemStatus(itemId, status);
+        // Revalidate the dashboard page so the item disappears from 'pending' 
+        // or updates its status label
+        revalidatePath('/dashboard/manage-items'); 
+        return result as ActionResponse;
+    } catch (error) {
+        console.error("Action Error: Failed to update item status", error);
         throw error;
     }
 };
