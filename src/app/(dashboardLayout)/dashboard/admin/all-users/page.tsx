@@ -12,17 +12,15 @@ interface User {
     email: string;
     image: string;
     role: 'user' | 'admin';
-    plan: string;
-    location: string;
 }
 
 const AllUsersAdminView = () => {
     const { data: session } = useSession();
     const router = useRouter();
     const [users, setUsers] = useState<User[]>([]);
-    const [page, setPage] = useState<number>(1);
+    const [page, setPage] = useState(1);
     const [meta, setMeta] = useState({ totalPages: 1, totalUsers: 0 });
-    const [loading, setLoading] = useState<boolean>(true);
+    const [loading, setLoading] = useState(true);
 
     const [confirmAction, setConfirmAction] = useState<{
         type: 'delete' | 'role' | null;
@@ -34,18 +32,10 @@ const AllUsersAdminView = () => {
         const fetchUsers = async () => {
             setLoading(true);
             try {
-                // Log what page we are requesting
-                // console.log("Requesting page:", page);
-
                 const res = await getAllUsers(page);
-
-                // console.log("API Response:", res);
-
                 if (res.success) {
                     setUsers(res.data || []);
                     setMeta(res.meta || { totalPages: 1, totalUsers: 0 });
-                } else {
-                    console.error("API Error message:", res.message);
                 }
             } catch (error) {
                 console.error("Failed to fetch users:", error);
@@ -59,12 +49,6 @@ const AllUsersAdminView = () => {
 
     const handleExecuteAction = async () => {
         const { type, userId, newRole } = confirmAction;
-
-        console.log("--- Action Started ---");
-        console.log("Action Type:", type);
-        console.log("User ID:", userId);
-        console.log("New Role:", newRole);
-
         if (!userId) return;
 
         if (type === 'delete') {
@@ -73,12 +57,10 @@ const AllUsersAdminView = () => {
             await actionUpdateUserRole(userId, newRole);
         }
 
-        // Refresh list after action
         const res = await getAllUsers(page);
         setUsers(res.data || []);
         setConfirmAction({ type: null, userId: null });
 
-        // Session logic: Redirect if current user demotes themselves
         if (type === 'role' && session?.user?.id === userId && newRole === 'user') {
             await signOut();
             router.push('/');
@@ -91,7 +73,6 @@ const AllUsersAdminView = () => {
         <div className="p-4 md:p-6 bg-white dark:bg-slate-900 min-h-screen">
             <h2 className="text-2xl font-bold mb-6 text-gray-800 dark:text-white">Manage Users</h2>
 
-            {/* Desktop Table */}
             <div className="hidden lg:block overflow-x-auto">
                 <table className="w-full text-left border-collapse dark:text-gray-300">
                     <thead>
@@ -99,7 +80,6 @@ const AllUsersAdminView = () => {
                             <th className="p-3">User</th>
                             <th className="p-3">Email</th>
                             <th className="p-3">Role</th>
-                            <th className="p-3">Plan</th>
                             <th className="p-3">Actions</th>
                         </tr>
                     </thead>
@@ -120,7 +100,6 @@ const AllUsersAdminView = () => {
                                         <option value="admin">Admin</option>
                                     </select>
                                 </td>
-                                <td className="p-3">{u.role === 'admin' && "N/A"}</td>
                                 <td className="p-3">
                                     <button onClick={() => setConfirmAction({ type: 'delete', userId: u._id })} className="text-red-500 hover:underline">Delete</button>
                                 </td>
@@ -130,7 +109,6 @@ const AllUsersAdminView = () => {
                 </table>
             </div>
 
-            {/* Mobile/Tablet Card View */}
             <div className="lg:hidden grid grid-cols-1 md:grid-cols-2 gap-4">
                 {users.map((u) => (
                     <div key={u._id} className="p-4 border rounded-xl dark:border-slate-700 dark:bg-slate-800 shadow-sm">
@@ -156,7 +134,6 @@ const AllUsersAdminView = () => {
                                     <option value="admin">Admin</option>
                                 </select>
                             </div>
-                            {u.role !== 'admin' && <p>Loc: {u.location}</p>}
                         </div>
 
                         <button
@@ -169,7 +146,6 @@ const AllUsersAdminView = () => {
                 ))}
             </div>
 
-            {/* Pagination */}
             <div className="mt-8 flex justify-center items-center gap-4">
                 <button
                     disabled={page === 1}
@@ -183,6 +159,7 @@ const AllUsersAdminView = () => {
                     className="px-4 py-2 bg-gray-200 dark:bg-slate-700 disabled:opacity-50 rounded"
                 >Next</button>
             </div>
+
             {confirmAction.type && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
                     <div className="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-xl max-w-sm w-full">

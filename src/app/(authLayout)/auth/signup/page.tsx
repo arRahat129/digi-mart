@@ -8,7 +8,7 @@ import { Button, Card, CardHeader, Input, Separator } from "@heroui/react";
 import { FiEye, FiEyeOff, FiMail, FiLock, FiUser, FiUploadCloud, FiHome, FiGrid, FiX } from 'react-icons/fi';
 import { FcGoogle } from 'react-icons/fc';
 import { toast } from 'react-hot-toast';
-import { signUp } from '@/lib/auth-client';
+import { signIn, signUp } from '@/lib/auth-client';
 import DigiMartLogo from '@/assets/images/DigiMartLogo.png';
 import ThemeToggle from '@/components/ThemeToggle';
 
@@ -137,6 +137,18 @@ export default function SignUpPage() {
             toast.error(`ERROR OCCURRED`);
         } finally {
             setIsLoading(false);
+        }
+    };
+
+    const handleGoogleSignUp = async () => {
+        try {
+            await signIn.social({
+                provider: "google",
+                callbackURL: "/",
+            });
+        } catch (authError) {
+            console.error(authError);
+            toast.error("Google authentication failed");
         }
     };
 
@@ -331,6 +343,7 @@ export default function SignUpPage() {
 
                     <Button
                         variant="outline"
+                        onClick={handleGoogleSignUp}
                         className="w-full py-6 font-semibold border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/40 rounded-xl text-sm flex items-center justify-center gap-2 transition-all bg-transparent"
                     >
                         <FcGoogle className="w-5 h-5 shrink-0" />
