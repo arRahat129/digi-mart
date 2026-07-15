@@ -29,7 +29,7 @@ const Navbar: React.FC = () => {
     const routes = [
         { name: 'Home', path: '/', icon: <FiHome className="w-4 h-4" /> },
         { name: 'All Items', path: '/items', icon: <FiPackage className="w-4 h-4" /> },
-        { name: 'Pricing', path: '/pricing', icon: <FiDollarSign className="w-4 h-4" /> }
+        // { name: 'Pricing', path: '/pricing', icon: <FiDollarSign className="w-4 h-4" /> }
     ];
 
     // Close desktop menu if clicking outside of it
