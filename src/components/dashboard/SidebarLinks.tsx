@@ -52,7 +52,7 @@ const SidebarLinks: React.FC<SidebarLinksProps> = ({ user }) => {
         { label: "Home", path: '/', icon: FaHouse},
         { label: "Dashboard", path: `/dashboard/admin`, icon: BsHouse},
         { label: "Manage Users", path: "/dashboard/admin/all-users", icon: FiUsers },
-        { label: "All Product Listings", path: "/dashboard/admin/all-listings", icon: FiTag },
+        { label: "All Product Listings", path: "/dashboard/admin/all-items", icon: FiTag },
     ];
 
     const navigationItems = userRole === "admin" ? adminNavLinks : userNavLinks;

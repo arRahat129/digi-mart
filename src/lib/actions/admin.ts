@@ -1,7 +1,7 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
-import { deleteUser, updateUserRole } from '../api/admin';
+import { deleteProductAdmin, deleteUser, getAllItemsAdmin, Item, toggleFeaturedProduct, updateUserRole } from '../api/admin';
 
 // Action to update user role
 export const actionUpdateUserRole = async (userId: string, role: string) => {
@@ -23,6 +23,32 @@ export const actionDeleteUser = async (userId: string) => {
         return result;
     } catch (error) {
         console.error("Action Error: Failed to delete user", error);
+        throw error;
+    }
+};
+
+export const actionGetAllItemsAdmin = async (page: number = 1) => {
+    return await getAllItemsAdmin(page);
+};
+
+export const actionToggleFeaturedProduct = async (itemId: string, productDetails: Item) => {
+    try {
+        const result = await toggleFeaturedProduct(itemId, productDetails);
+        revalidatePath('/dashboard/products'); // Ensure this matches your route
+        return result;
+    } catch (error) {
+        console.error("Action Error: Failed to toggle featured status", error);
+        throw error;
+    }
+};
+
+export const actionDeleteProduct = async (itemId: string) => {
+    try {
+        const result = await deleteProductAdmin(itemId);
+        revalidatePath('/dashboard/products');
+        return result;
+    } catch (error) {
+        console.error("Action Error: Failed to delete product", error);
         throw error;
     }
 };
